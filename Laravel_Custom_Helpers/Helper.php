@@ -247,4 +247,69 @@ class Helper
 
         return $name;
     }
+     
+     //other
+     
+     // insert
+    function addRow($tab,$array)
+    {
+        $last_id = DB::table($tab)->insert($array);
+        return DB::getPdo()->lastInsertId();
+    }
+
+    // update
+    function updateRow($tab,$array,$where_field,$where_id)
+    {
+        DB::table($tab)->where($where_field,$where_id)->update($array);
+        return true; 
+    }
+
+    // delete
+    function delRow($tab,$where_field,$where_id)
+    {
+        DB::table($tab)->where($where_field,$where_id)->delete();
+        return true; 
+    }
+
+    // get all data
+    function selectRows($tab,$fields="*",$where_field="status",$where_id="1",$orderby="created_at",$order="asc")
+    {
+        $all_data = DB::table($tab)->select($fields)->where($where_field,$where_id)->orderBy($orderby, $order)->get();
+        return $all_data;
+    }
+
+    // get all data
+    function selectAllRows($tab,$fields="*",$orderby="created_at",$order="asc")
+    {
+        $all_data = DB::table($tab)->select($fields)->orderBy($orderby, $order)->get();
+        return $all_data;
+    }
+
+    // get group By all data  
+    function selectRowsGroupBy($tab,$fields="*",$where_field="status",$where_id="1",$groupBy="created_at",$orderby="name",$order="asc")
+    {
+        $all_data = DB::table($tab)->select($fields)->where($where_field,$where_id)->orderBy($orderby, $order)->groupBy($orderby)->get();
+        return $all_data;
+    }
+
+    // get count data
+    function selectRowsCount($tab,$where_field="status",$where_id="1")
+    {
+        $total_data = DB::table($tab)->where($where_field,$where_id)->count();
+        return $total_data;
+    }
+
+    // get single row data
+    function singleRow($tab,$fields="*",$where_field="status",$where_id="1")
+    {
+        $total_data = DB::table($tab)->select($fields)->where($where_field,$where_id)->first();
+        return $total_data;
+    }
+
+    // get single value data
+    function getSingleValue($tab,$fields="*",$where_field="status",$where_id="1")
+    {
+        $get_value = DB::table($tab)->where($where_field,$where_id)->value($fields);
+        return $get_value;
+    }
 }
